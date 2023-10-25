@@ -1,0 +1,516 @@
+Helm Youtube Channels:
+  1 https://www.youtube.com/watch?v=KeRrvCrF8zc&list=PLLu1bCv5AByFvkpzrBO-ROX9Q14T2WrF9
+  2 https://www.coachdevops.com/2023/05/how-to-deploy-springboot-microservices_13.html
+  3 https://www.youtube.com/watch?v=gbUBTTXuQwI&list=PLLYW3zEOaqlKYku0piyzzLFGpR9VpPvXR  (SN)
+  4 https://www.youtube.com/watch?v=DQk8HOVlumI&pp=ygUEaGVsbQ%3D%3D                      (Rahul Wagh)
+  5 https://www.youtube.com/watch?v=pHGc87zHLlo&list=PL7iMyoQPMtANm_35XWjkNzDCcsw9vy01b
+  6 https://www.youtube.com/watch?v=nH6LDrl6xpI&pp=ygUEaGVsbQ%3D%3D
+  7 https://www.youtube.com/watch?v=KeRrvCrF8zc&pp=ygUEaGVsbQ%3D%3D
+  8 https://www.youtube.com/watch?v=lctjlwSxol4&pp=ygUEaGVsbQ%3D%3D
+  9 https://www.youtube.com/watch?v=x77NzZxj670&list=PLSwo-wAGP1b8svO5fbAr7ko2Buz6GuH1g
+ 
+ 
+ 
+ GitHub Repo:
+   1. https://github.com/DeekshithSN/Helm_charts
+   
+--------------------------------------------------------------------------------------------------------------------------------
+
+   To delete all data from a file using vi editor:
+     Open that file press escape button then colon %d enter
+	esc :%d enter
+		
+   In VS code to give proper indentation select that block of code and use shift+tab button.	
+
+   Helm is an packaging manager in k8s. In k8s we used diff manifest(YAML) to create diff objects.
+   To manage these files is the time consuming task also to increas the replicas we have to make changes manually.
+   In Helm we combine all these manifest files in a package and then install it, and this is called Chart.
+ 
+   Helm has three components:
+       1. Chart: 
+             Helm uses a packaging format called charts. The chart may consists multiple files to create a package.
+       2. Release:
+             Release is an instance of a chart running in a k8s cluster.
+	     In cluster a chart may often installed multiple times, so in each time it will create a new release.
+       3. Repository:
+             It is a place where all packaging charts are saved.
+
+   Deprecating Charts:
+      When managing charts in a Chart Repository, it is sometimes necessary to deprecate a chart. 
+      The optional deprecated field in Chart.yaml can be used to mark a chart as deprecated. 
+   
+   Chart Types:
+      The type field defines the type of chart. There are two types: application and library. 
+	    1. Application :
+                 Application is the default type and it is the standard chart which can be operated on fully. 
+	    2. Library :
+                 The library chart provides utilities or functions for the chart builder. 
+                 A library chart differs from an application chart because it is not installable and usually doesn't 
+	         contain any resource objects.
+
+   Chart Dependencies:
+      In Helm, one chart may depend on any number of other charts. These dependencies can be dynamically linked 
+      using the dependencies field in Chart.yaml or brought in to the charts/ directory and managed manually.
+
+   Helm Chart templates are written in the Go template language.
+
+
+   The Purpose of Helm
+     Helm is a tool for managing Kubernetes packages called charts. Helm can do the following:
+       Create new charts from scratch
+       Package charts into chart archive (tgz) files
+       Interact with chart repositories where charts are stored
+       Install and uninstall charts into an existing Kubernetes cluster
+       Manage the release cycle of charts that have been installed with Helm	
+
+   Helm can work with any version of k8s. It also supports other cloud providers like AKS,GKE,EKS
+ 
+   Helm manages the application in Kubernetes using the following components,
+      1. helm: a command line tool that provides the user interface to all Helm functionality
+      2. tiller: the server component which runs on the Kubernetes cluster
+      3. charts: which is the packaging format in Helm
+      4. charts repository: with prepackaged charts for popular open-source software projects
+      5. Tiller is used to listen for commands from helm and handle the configuration and deployment of software 
+	 release on the Kubernetes cluster. 
+
+   Hooks :
+      Hooks are declared as an annotation in the metadata section of the chart.yaml file. Some of the available hooks 
+      are as follows,
+	 
+       1. pre-install: 
+	         Executes the required operation after templates are rendered, but before any resources are created in Kubernetes
+       2. post-install: 
+	         Executes the required operation after all resources are loaded into Kubernetes
+       3. pre-delete: 
+	         Executes the required operation on a deletion request before any resources are deleted from Kubernetes
+       4. post-delete: 
+	         Executes the required operation on a deletion request after all of the release’s resources have been deleted.
+       5. pre-upgrade: 
+	        Executes the required operation on an upgrade request after templates are rendered, but before any resources are  loaded into Kubernetes
+                (i.e. before a Kubernetes apply operation)
+       6. post-upgrade: 
+	        Executes the required operation on an upgrade after all resources have been upgraded
+       7. pre-rollback: 
+	        Executes the required operation on a rollback request after templates are rendered, but before any resources have been rolled back
+       8. post-rollback:
+                Executes the required operation on a rollback request after all resources have been modified
+       9. crd-install: 
+	        Adds CRD resources before any other checks are run. This is used only on CRD definitions that are used by other manifests in the chart
+       10. test-success: 
+	        Executes the required operation while running helm test and expects the pod to return successfully 
+	        (return code == 0)
+       11. test-failure: 
+	        Executes the required operation while running helm test and expects the pod to fail (return code != 0)
+
+
+    
+
+   Helm Commands:
+       1. helm repo add give_name repo_url
+       2. helm repo list
+       3. helm install give_name repo_name/pkg_name
+ 
+   To debug we have three methods:
+       1. helm lint chart/release_name       -- It will show errors if have. Before uploading to production check this.
+       2. helm template chart/release_name   -- It will show errors in template file
+       3. helm install give_name --dry-run --debug chart_name
+
+           - helm search:    search for charts
+           - helm pull:      download a chart to your local directory to view
+           - helm install:   upload the chart to Kubernetes
+           - helm list:      list releases of charts
+
+   Helm commands (helm --help)
+
+      01.  helm repo add name repo_url
+      02.  helm completion - generate autocompletion scripts for the specified shell
+      03.  helm create - create a new chart with the given name
+      04.  helm dependency - manage a chart's dependencies
+      05.  helm env - helm client environment information
+      06.  helm get - download extended information of a named release
+      07.  helm history - fetch release history  -- helm history release_name
+      08.  helm install - install a chart
+      09.  helm lint - examine a chart for possible issues
+      10.  helm list - list releases
+      11.  helm package - package a chart directory into a chart archive
+      12.  helm plugin - install, list, or uninstall Helm plugins
+      13.  helm pull - download a chart from a repository and (optionally) unpack it in local directory
+      14.  helm push - push a chart to remote
+      15.  helm registry - login to or logout from a registry
+      16.  helm repo - add, list, remove, update, and index chart repositories
+      17.  helm rollback - roll back a release to a previous revision
+      18.  helm search - search for a keyword in charts
+      19.  helm show - show information of a chart
+      20.  helm status - display the status of the named release
+      21.  helm template - locally render templates
+      22.  helm test - run tests for a release
+      23.  helm uninstall - uninstall a release
+      24.  helm upgrade - upgrade a release
+      25.  helm verify - verify that a chart at the given path has been signed and is valid
+      26.  helm version - print the client version information 
+	 
+--------------------------------------------------------------------------------------------------------------------
+
+    When you create an chart and after installing you can create release. When you install chart it will create first release.
+    Now when you make changes in any of the file and then upgrade it to new version
+       helm upgrade release_name chart_name    -- check revision
+
+    When you create any chart as follows:
+	  helm create mychart   -- The directory structure as follows will be created 
+	    mychart
+		|-- Chart.yml		
+		|-- charts 
+		|-- templates
+		|-- values.yml 
+		
+     These are the main components of chart.
+        |-- Chart.yaml
+	    |-- charts
+		|-- templates
+		|   |-- NOTES.txt
+		|   |-- _helpers.tpl
+		|   |-- deployment.yaml
+		|   |-- hpa.yaml
+		|   |-- ingress.yaml
+		|   |-- service.yaml
+		|   |-- serviceaccount.yaml
+		|   `-- tests
+		|       `-- test-connection.yaml
+		`-- values.yaml	  
+		
+------------------------------------------------------------------------------------------------------------------------------
+ 
+    1. helm create mychart
+    2. cd mychart
+    3. vi values.yml  -- change service type to NodePort so that we can access through web
+    4. helm install my_new_chart mychart   -- If you are inside your chart use sdot(.) instead of chart name.
+    5. Here my_new_chart is an release.
+    6. helm list -a   -- It will show the release list or all data.
+    7. By this some k8s objects will be created 
+        1. kubectl get svc
+        2. kubectl get deployments	   
+    8. helm delete release_name/chart_name   -- Check once can we delete release_name 
+  
+ 
+  helm templates : 
+     1. helm template chart_name  -- It will show the files
+	
+  helm dry run :
+     Used to check any error. It is an advanced version of/for helm lint and helm template.
+     It will check in k8s API server for any error as it is done like in production.
+         helm install myrelease --dry-run --debug ./chart_name
+		 
+		 
+  helm upgrade :
+     It will upgrade the release version. Whenever you made any changes in existing release and want to deploy the same you 
+     can use helm upgrade command as :
+         helm upgrade release_name chart_name.
+            By this check helm list and the version will be upgraded.
+
+  helm variables :
+     Add the variable in values.yml file and to use it in any yml file use below syntax :
+        {{ Values.variable_name }}  -- 	 
+		 
+  		 
+-------------------------------------------------------------------------------------------------------------------------------
+ 
+ To add any depenndent chart we need to add its dependencies in Chart.yml file and the run one command as :
+    To add dependencies:
+      dependencies:
+        - name: Name of the chart that u wnat to add
+          version: ""     -- version of the chart chexk from helm.hub site
+          repository: ""  -- repository of the chart chexk from helm.hub site
+
+      After this run this command:
+            helm dependency update chart_name
+
+      Then check in charts directory one tar file will be there.			
+
+
+
+
+  Template Functions & Pipelines (|) :
+    Here we are using diff functions to make the manifest accurate and clear.
+	  1. quote ("")
+      2. repeat
+      3. lower, upper
+      4. include    (If you have to add any other YAML file or some function from _helper.tpl file then you can you use this.)
+      5. required   (It's like a msg to show user that this filed is imp you have to provide it.)
+                    example: time: {{ required "The time is most required" .Values......}}
+      6. default    (If no values specified you have to take this as default value)
+                    example: city: {{ .Values..... | default "Pune"}}	
+      7. nindent    (With this we can provide indentation)
+      8. toYaml     (When you have to use other yaml files then use this.)
+	  
+	  
+  Flow Controls:
+     1. if/else  (- will remove blank spaces)
+	      {{- if data }}
+		     Do Something
+	      {{- else if data }}
+                     Do Something
+              {{- else }}
+                    Default case
+              {{- end }}		  
+	   
+	   
+      2. with
+	     {{- with data }}
+		  Do Something
+	     {{- end }}	
+	 
+	  
+     3. range (Same as for loop)
+	     {{- range .Values....}}
+	     - {{ .| title |quote }}
+	     {{- end }}
+       
+ 	  
+  Variables:
+     {{- $relname := .Release.Name -}}
+	 
+	 release: {{ $relname }}
+	 
+	 
+  Named Templates :
+    How it is defined:
+	
+        {{- define "mychart.labels" }}
+	       data
+	{{- end }}
+
+    How it is called:
+	
+        {{- template "mychart.labels" . }}
+
+		
+		
+  Helmfile:
+     What is Helmfile & why we need it ?
+        This is a kind of yaml file where we can add the info related to helm charts so that using a single command we can install helm charts. (Rahul wagh YouTube)
+        There is a syntax for helmfile which we need to look.		
+           (https://jhooq.com/getting-start-with-helm-chart/?query=helm)
+	
+  Installation of helmfile:
+      1. First install helm.
+      2. wget https://github.com/roboll/helmfile/releases/download/v0.144.0/helmfile_linux_amd64
+      3. mv helmfile_linux_amd64 helmfile
+      4. chmod 777 helmfile 
+      5. mv helmfile /usr/local/bin
+      6. helmfile --version
+ 
+  How to use Template and Environment variables insides Helmfile? 
+     1. .gotmpl - Any value files with .gotmpl extension will be rendered with template expressions.
+     2. .yaml - File ending with .yaml extension will be used as plain value files	
+
+    vi helmfile.yml
+	   ---
+	   releases:
+            - name: helloworld
+              chart: ./helloworld
+              values:
+               - values.yaml.gotmpl
+
+   Let’s consider the values.yaml.gotmpl has following expression -
+	  {{ readFile "values.yaml" | fromYaml | setValueAtPath "foo.bar" "FOO_BAR" | toYaml }}
+	
+   How to pass Environment values into helmfile.yaml
+      environments:
+        production:
+          values:
+            - production.yaml
+        ---
+
+        releases:
+           - name: helloworld1
+             chart: ./helloworld1
+             installed: true   
+	 
+	 
+	 
+    How to use a helm chart which is there in remote github :
+	
+    ---
+    repositories:
+      - name: mychart
+        url: URL of repo where the chart is present
+
+    releases:
+      - name: mychart
+        chart: path of chart (Directory wise path)
+        installed: true (For installing the chart, False for deleting)
+		
+	---
+
+    Also we can installed multiple charts usig helmfile as:
+    releases:
+      - name: mychart
+        chart: path of chart (Directory wise path)
+        installed: true (For installing the chart, False for deleting)
+
+    releases:
+      - name: mychart11
+        chart: path of chart (Directory wise path)
+        installed: true (For installing the chart, False for deleting)    	
+
+    Using below command we can create charts using helmfile 
+	    helmfile sync
+		 
+	
+
+
+  Plugins:
+    1. diff: Will shows the diff between 2 revisions of helm chart.
+	2. helm plugin install https://github.com/databus23/helm-diff
+	3. helm plugin list
+	4. helm create helloworld
+	5. helm install myhelloworld helloworld 
+	6. Change some data in values.yaml file. Example: replicaCount: 2
+	7. helm upgrade myhelloworld .
+	8. helm list -a      	
+	9. helm diff revision myhelloworld 1 2
+   10. helm plugin uninstall diff
+
+
+
+  How to ADD upstream Helm chart repository:
+     There are five repo commands provided by Helm which can be used for add,list,remove,update,index the chart repository.
+        1. add : Add chart repository
+        2. list : List chart repository
+        3. update : Update the chart information locally
+        4. index : For generating the index file
+        5. remove : Remove chart repository
+
+
+  Pass environment variables into Helm Chart:
+      1. by set:
+	       helm create mychart
+		   helm install --set replicaCount=2 myrel mychart
+           helm install --set replicaCount=2  --set replicaCount=3 helloworldrelease helloworld
+     
+	 2. values.yaml file
+	       vi myvalues.yaml  -- add some values
+		   helm install -f myvalues.yaml helloworldrelease helloworld  -- If you used diff name for values.yml file.
+		   
+  
+  Run Helm Install with multiple values.yaml:
+      helm install -f my-first-value.yaml -f my-second-value.yaml  helloworldrelease helloworld
+	  
+	  
+	  
+	  
+	
+
+All vallues can be stored in values.yaml file.
+To store multiline values like labels/env use _helpers.tpl file it has a syntax as below:
+---------------------------
+_helpers.tpl :
+
+{{- define "Atuls.labels" -}}
+name: app
+class: BE
+{{- end -}}
+---------------------------
+Values.yml
+
+app:
+ replicas: 10
+ Resources:
+  requests: 
+    memory: 100 Mi
+    cpu: 100m
+  limits:
+    memory: 200 Mi
+    cpu: 200m
+----------------------------	
+While calling this in any manifest file need to check the indentation.
+----------------------------
+Deploy.yml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: firstdeploy
+    labels:
+      {{- include "Atuls.labels" . | nindent 5 -}}   # nindent will give exact spaces to these line to avoid indentation error.
+spec:
+   replicas: {{ .Values.app.replicas }}
+   selector:
+      matchLabels:
+         app: myapp 
+   strategy:
+         rollingUpdate:
+            maxSurge: 0           
+            maxUnavailable: 2     
+         type: RollingUpdate                                         
+   template:
+      metadata:
+          name: pod1
+          labels:
+            app: myapp
+      spec:
+        containers:
+         - name: newconta
+           image: nginx:latest   
+           resources:             
+             {{- toYaml.Values.app.resources | nindent 12 }}  # To fetch a set of values from Values.yml file use this syntax
+{{- end -}}			 
+-------------------------------------------------
+
+To add horizontal pod autoscaler in deployment file (hpa)
+
+Values.yml
+
+hap:
+ enabled: false
+ 
+depoyment.yml
+
+{{- if .Values.hpa.enabled -}}
+ 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: firstdeploy
+    labels:
+      {{- include "Atuls.labels" . | nindent 5 -}}   # nindent will give exact spaces to these line to avoid indentation error.
+spec:
+   replicas: {{ .Values.app.replicas }}
+   selector:
+      matchLabels:
+         app: myapp 
+   strategy:
+         rollingUpdate:
+            maxSurge: 0           
+            maxUnavailable: 2     
+         type: RollingUpdate                                         
+   template:
+      metadata:
+          name: pod1
+          labels:
+            app: myapp
+      spec:
+        containers:
+         - name: newconta
+           image: nginx:latest   
+           resources:             
+             {{- toYaml.Values.app.resources | nindent 12 }}  # To fetch a set of values from Values.yml file use this syntax
+{{- end -}}		
+
+--------------------------------------------------------------------------------------------------------------------------------
+Helm Interview Question:
+  What is Helm?
+  Why do we need Helm? What would be the use case for using it?
+  Explain "Helm Charts"
+  It is said that Helm is also Templating Engine. What does it mean?
+  What are some use cases for using Helm template file?
+  Explain the Helm Chart Directory Structure
+  How Helm supports release management?
+  Commands
+  How do you search for charts?
+  Is it possible to override values in values.yaml file when installing a chart?
+  How do you list deployed releases?
+  How to execute a rollback?
+  How to view revision history for a certain release?
+  How to upgrade a release?
+  
